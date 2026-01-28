@@ -32,7 +32,7 @@ STEP-4: Group the plain text in pairs and match the corresponding corner letters
 STEP-5: Display the obtained cipher text.<br>
 
 
-Program:
+## Program:
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -94,6 +94,8 @@ int main()
 
 
 
-Output:
+## Output:
 <img width="1142" height="790" alt="image" src="https://github.com/user-attachments/assets/39c37486-197d-4ab6-b2bb-74d114da42f1" />
 
+## Result:
+Thus the implementation of PLAYFAIR CIPHER had been executed successfully. 
