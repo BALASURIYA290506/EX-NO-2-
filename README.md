@@ -1,5 +1,6 @@
 ## EX. NO:2 IMPLEMENTATION OF PLAYFAIR CIPHER
-
+## NAME: M BALASURIYA
+## REG.NO: 212224240021
  
 
 ## AIM:
@@ -22,22 +23,77 @@ To encrypt a message, one would break the message into digrams (groups of 2 lett
 ![image](https://github.com/Hemamanigandan/EX-NO-2-/assets/149653568/e6858d4f-b122-42ba-acdb-db18ec2e9675)
 
  
-
 ## ALGORITHM:
 
-STEP-1: Read the plain text from the user.
-STEP-2: Read the keyword from the user.
-STEP-3: Arrange the keyword without duplicates in a 5*5 matrix in the row order and fill the remaining cells with missed out letters in alphabetical order. Note that ‘i’ and ‘j’ takes the same cell.
-STEP-4: Group the plain text in pairs and match the corresponding corner letters by forming a rectangular grid.
-STEP-5: Display the obtained cipher text.
-
-
+STEP-1: Read the plain text from the user.<br>
+STEP-2: Read the keyword from the user.<br>
+STEP-3: Arrange the keyword without duplicates in a 5*5 matrix in the row order and fill the remaining cells with missed out letters in alphabetical order. Note that ‘i’ and ‘j’ takes the same cell.<br>
+STEP-4: Group the plain text in pairs and match the corresponding corner letters by forming a rectangular grid.<br>
+STEP-5: Display the obtained cipher text.<br>
 
 
 Program:
+```c
+#include <stdio.h>
+#include <string.h>
+#define SIZE 5
+char key[SIZE][SIZE] = 
+{
+    {'M','O','N','A','R'}, {'C','H','Y','B','D'},
+    {'E','F','G','I','K'}, {'L','P','Q','S','T'},
+    {'U','V','W','X','Z'}
+};
 
+void find(char ch, int *r, int *c) 
+{
+    for (int i = 0; i < SIZE*SIZE; i++)
+        if (key[i/SIZE][i%SIZE] == ch) { *r = i/SIZE; *c = i%SIZE; return; }
+}
+
+void playfair(char *in, char *out, int enc) 
+{
+    int r1, c1, r2, c2, s = enc ? 1 : -1;
+    for (int i = 0; in[i]; i += 2) 
+    {
+        find(in[i], &r1, &c1); find(in[i+1], &r2, &c2);
+        if (r1 == r2)
+            out[i] = key[r1][(c1 + s + SIZE) % SIZE],
+            out[i+1] = key[r2][(c2 + s + SIZE) % SIZE];
+        else if (c1 == c2)
+            out[i] = key[(r1 + s + SIZE) % SIZE][c1],
+            out[i+1] = key[(r2 + s + SIZE) % SIZE][c2];
+        else
+            out[i] = key[r1][c2], out[i+1] = key[r2][c1];
+    }
+    out[strlen(in)] = '\0';
+}
+
+int main() 
+{
+    char encrypted[100] = {0}, decrypted[100] = {0};
+    char text[100] = {0};
+    printf("Enter text : ");
+    scanf("%99s", text);
+    int len = strlen(text);
+    if (len % 2 != 0) 
+    {
+        printf("Error: Please enter an even number of characters.\n");
+        return 1;
+    }
+
+    playfair(text, encrypted, 1);
+    printf("Encrypted: %s\n", encrypted);
+    
+    playfair(encrypted, decrypted, 0);
+    printf("Decrypted: %s\n", decrypted);
+
+    return 0;
+}
+```
 
 
 
 
 Output:
+<img width="1142" height="790" alt="image" src="https://github.com/user-attachments/assets/39c37486-197d-4ab6-b2bb-74d114da42f1" />
+
